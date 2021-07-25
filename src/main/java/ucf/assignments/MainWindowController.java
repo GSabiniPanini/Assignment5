@@ -14,7 +14,6 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.converter.DoubleStringConverter;
-
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -31,13 +30,11 @@ public class MainWindowController implements Initializable {
     private ItemModel model;
     private SceneManager sceneManager;
     private FileManager fileManager;
-    private Window mainStage;
 
     public MainWindowController(ItemModel model, SceneManager sceneManager) {
         this.model = model;
         this.sceneManager = sceneManager;
         this.fileManager = new FileManager();
-        this.mainStage = choiceBox.getScene().getWindow();
     }
 
     @FXML
@@ -116,13 +113,13 @@ public class MainWindowController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //set up cellFactory for Table view
-        itemsValueColumn.setCellValueFactory(new PropertyValueFactory<Item, Double>("value"));
+        itemsValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
         itemsValueColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
 
-        itemsSerialNumberColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("serialNumber"));
+        itemsSerialNumberColumn.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
         itemsSerialNumberColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        itemsNameColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
+        itemsNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         itemsNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         //add sorting
@@ -167,32 +164,35 @@ public class MainWindowController implements Initializable {
 
             itemsTableView.setItems(sortedItems);
             itemsTableView.sort();
+
         } catch(IllegalArgumentException e) {
             //if list can not be found, leave table blank
             itemsTableView.setItems(null);
         }
 
+
     }
 
     @FXML
     void saveAsButtonClicked(ActionEvent event) {
+        Stage mainStage = (Stage) choiceBox.getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save as...");
         fileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter("TSV files", "*.txt"),
-                new ExtensionFilter("HTML files", "*.html"),
-                new ExtensionFilter("JSON files", ".json"));
+                new ExtensionFilter("TSV file", "*.txt"),
+                new ExtensionFilter("HTML file", "*.html"),
+                new ExtensionFilter("JSON file", ".json"));
         File selectedFile = fileChooser.showSaveDialog(mainStage);
 
         if(selectedFile != null) {
             switch(fileChooser.getSelectedExtensionFilter().getDescription()) {
-                case "TSV files":
+                case "TSV file":
                     fileManager.saveAsTSV(model, selectedFile);
                     break;
-                case "HTML files":
+                case "HTML file":
                     fileManager.saveAsHTML(model, selectedFile);
                     break;
-                case "JSON files":
+                case "JSON file":
                     fileManager.saveAsJSON(model, selectedFile);
                     break;
             }
@@ -201,6 +201,7 @@ public class MainWindowController implements Initializable {
 
     @FXML
     void loadButtonClicked(ActionEvent event) {
+        Stage mainStage = (Stage) choiceBox.getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(
@@ -225,5 +226,6 @@ public class MainWindowController implements Initializable {
                     break;
             }
         }
+        itemsTableView.sort();
     }
 }

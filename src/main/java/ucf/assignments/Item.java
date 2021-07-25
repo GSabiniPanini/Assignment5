@@ -5,7 +5,6 @@
 
 package ucf.assignments;
 
-import com.sun.javafx.binding.StringFormatter;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -26,6 +25,10 @@ public class Item {
         this.value = new SimpleDoubleProperty(0.00);
     }
 
+    public String getName() {
+        return name.get();
+    }
+
     public void setName(String name) {
         if(isValidName(name)) {
             this.name.set(name);
@@ -41,8 +44,16 @@ public class Item {
         return flag;
     }
 
+    public String getSerialNumber() {
+        return serialNumber.get();
+    }
+
     public void setSerialNumber(String serialNumber) {
         this.serialNumber.set(serialNumber);
+    }
+
+    public double getValue() {
+        return value.get();
     }
 
     public void setValue(double value) {
@@ -51,24 +62,12 @@ public class Item {
         }
     }
 
-    public String getName() {
-        return name.get();
-    }
-
     public SimpleStringProperty nameProperty() {
         return name;
     }
 
-    public String getSerialNumber() {
-        return serialNumber.get();
-    }
-
     public SimpleStringProperty serialNumberProperty() {
         return serialNumber;
-    }
-
-    public double getValue() {
-        return value.get();
     }
 
     public SimpleDoubleProperty valueProperty() {
@@ -76,10 +75,10 @@ public class Item {
     }
 
     public String toTSVLine() {
-        return String.format("%10.2f\t%s\t%s", getValue(), getSerialNumber(), getName());
+        return String.format("%10.2f\t%-15s\t%-10s", getValue(), getSerialNumber(), getName());
     }
 
     public String toHTMLLine() {
-        return String.format("%10.2f\t%s\t%s<br>", getValue(), getSerialNumber(), getName());
+        return String.format("%10.2f\t%15s\t%10s<br>", getValue(), getSerialNumber(), getName());
     }
 }

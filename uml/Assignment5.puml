@@ -8,29 +8,40 @@ class InventoryTracker {
 class SceneManager {
     scenes: Map<String, Scene>
 
-    load()
+    load(): void
     getScene(String): Scene
 }
 
-class MainWindowController {
-    items: ItemModel
-    scenes: SceneManager
-    fileManager: FileManager
+class MainWindowController implements Initializable {
+    - choiceBox: ChoiceBox<String>
+    - searchQueryField: TextField
+    - itemsTableView: TableView<Item>
+    - itemsValueColumn: TableColumn<Item, Double>
+    - itemsSerialNumberColumn: TableColumn<Item, String>
+    - itemsNameColumn: TableColumn<Item, String>
 
-    + MainWindowController(ItemModel, SceneManager)
+    - model: ItemModel
+    - sceneManager: SceneManager
+    - fileManager: FileManager
+    - mainStage: Window
 
-    addItemButtonClicked(EventHandler)
-    editItemButtonClicked(EventHandler)
-    removeItemButtonClicked(EventHandler)
-    saveInventoryAsCSVButtonClicked(EventHandler)
-    saveInventoryAsHTMLButtonClicked(EventHandler)
-    saveInventoryAsJSONButtonClicked(EventHandler)
+    <<constructor>> MainWindowController(ItemModel, SceneManager)
 
-    addItem(String, String, BigDecimal)
-    editItem()
-    saveInventoryAsCSV(filename: String)
-    saveInventoryAsHTML(filename: String)
-    saveInventoryAsJSON(filename: String)
+    addNewItemButtonClicked(ActionEvent): void
+    deleteSelectedItemButtonClicked(ActionEvent): void
+    editNameText(TableColumn.CellEditEvent<Item, String>): void
+    editSerialNumberText(TableColumn.CellEditEvent<Item, String>): void
+    editValueText(TableColumn.CellEditEvent<Item, Double>): void
+    saveAsButtonClicked(ActionEvent): void
+    loadButtonClicked(ActionEvent): void
+
+    + initialize(URL, ResourceBundle): void
+
+    - removeItem(int): void
+    - editName(Item, String): void
+    - editSN(Item, String): void
+    - editValue(Item, Double): void
+
 }
 
 class AddItemWindowController {
@@ -38,6 +49,7 @@ class AddItemWindowController {
     - serialNumberField: TextField
     - nameField: TextField
     - errorLabel: Label
+
     - model: ItemModel
     - sceneManager: SceneManager
 
@@ -50,7 +62,19 @@ class AddItemWindowController {
 }
 
 class ItemModel {
-    - ObservableList<Item>
+    - items: ObservableList<Item>
+
+    <<constructor>> ItemModel()
+    <<constructor>> ItemModel(ObservableList<Item>)
+
+    + getItems(): ObservableList<Item>
+    + get(int): Item
+    - remove(int): void
+    + isValidSerialNumber(String): boolean
+    + isUnique(String): boolean
+    + enoughChars(String): boolean
+    - hasCorrectChars(String): boolean
+    - isUniqueSerialNumber(String): boolean
 }
 
 class Item {
@@ -58,16 +82,30 @@ class Item {
     - serialNumber: SimpleStringProperty
     - value: SimpleDoubleProperty
 
-    + getName()
-    + setName()
-    + nameProperty()
-    + getSerialNumber()
+    <<constructor>> Item(String, String, Double)
+    <<constructor>> Item(String)
+
+    + getName(): String
+    + setName(String): void
+    - isValidName(String): boolean
+    + getSerialNumber(): String
+    + setSerialNumber(String): void
+    + getValue(): double
+    + setValue(double): void
+    + nameProperty(): SimpleStringProperty
+    + serialNumberProperty(): SimpleStringProperty
+    + valueProperty(): SimpleDoubleProperty
+    + toTSVLine(): String
+    + toHTMLLine(): String
 }
 
 class FileManager {
-    saveAsCSV(filename: String, data: String)
-    saveAsJSON(filename: String, data: String)
-    saveAsHTML(filename: String, data: String)
+    + saveAsTSV(ItemModel, File): void
+    + loadTSV(ItemModel, File): void
+    + saveAsHTML(ItemModel, File): void
+    + loadHTML(ItemModel, File): void
+    + saveAsJSON(ItemModel, File): void
+    + loadJSON(ItemModel, File): void
 }
 
 openjfx.org.Application <|-- InventoryTracker
@@ -76,6 +114,6 @@ SceneManager -- MainWindowController
 SceneManager -- AddItemWindowController
 MainWindowController o-- ItemModel
 AddItemWindowController o-- ItemModel
-ItemModel *-- Item
+ItemModel *- Item
 MainWindowController o-- FileManager
 @enduml

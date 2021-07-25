@@ -10,7 +10,7 @@ import java.util.Set;
 
 
 public class ItemModel {
-    public ObservableList<Item> items;
+    private ObservableList<Item> items;
 
     public ItemModel() {
         this.items = FXCollections.observableArrayList();
@@ -26,10 +26,6 @@ public class ItemModel {
 
     public Item get(int index) {
         return items.get(index);
-    }
-
-    private void remove(int index) {
-        items.remove(index);
     }
 
     public boolean isValidSerialNumber(String s) {

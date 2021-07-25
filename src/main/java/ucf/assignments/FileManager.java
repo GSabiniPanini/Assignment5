@@ -7,13 +7,13 @@ package ucf.assignments;
 
 import java.io.*;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 public class FileManager {
 
     public void saveAsTSV(ItemModel model, File file) {
         try {
             PrintWriter writer = new PrintWriter(file);
+            writer.println(String.format("%10s%15s%9s", "Value", "Serial Number", "Name"));
             for(Item item : model.getItems()) {
                 writer.println(item.toTSVLine());
             }
@@ -34,6 +34,8 @@ public class FileManager {
             sc.useDelimiter("\t");
 
             model.getItems().clear();
+            //clear the Header Line
+            temp = sc.nextLine();
             while(sc.hasNextLine()) {
                 temp = sc.next();
                 value = Double.valueOf(temp);
@@ -95,7 +97,6 @@ public class FileManager {
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 
     public void saveAsJSON(ItemModel model, File file) {
