@@ -24,7 +24,53 @@ public class ItemModel {
         return items;
     }
 
-    public boolean isUniqueSerialNumber(String s) {
+    public Item get(int index) {
+        return items.get(index);
+    }
+
+    public boolean isValidSerialNumber(String s) {
+        //flag bool
+        boolean flag = true;
+
+        //discern that serial number has 10 characters of either letter or digit
+        if(hasCorrectChars(s)) {
+        } else {
+            flag = false;
+        }
+
+        //discern that serial number is unique
+        if(flag) {
+            flag = isUniqueSerialNumber(s);
+        }
+
+        //return bool flag
+        return flag;
+    }
+
+    private boolean hasCorrectChars(String s) {
+        int n = s.length();
+        boolean flag = true;
+        //convert string to char array
+        char[] array = s.toCharArray();
+
+        //discern sn has 10 characters of digits or letters
+        if(n == 10)
+        {
+            for(int i = 0; i<n; i++) {
+                if(Character.isLetter(array[i]) || Character.isDigit(array[i])) {
+                }
+                else {
+                    flag = false;
+                }
+            }
+        } else {
+            flag = false;
+        }
+
+        return flag;
+    }
+
+    private boolean isUniqueSerialNumber(String s) {
         Set<String> unique = new HashSet<>();
         ArrayList<String> temp = new ArrayList<>();
         boolean flag = true;

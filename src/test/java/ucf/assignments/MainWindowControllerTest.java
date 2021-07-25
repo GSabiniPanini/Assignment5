@@ -18,4 +18,12 @@ class MainWindowControllerTest {
         test.setName("test");
         assertEquals(test.getName(), "test");
     }
+
+    @Test
+    void can_add_new_inventory_item() {
+        ItemModel model = new ItemModel();
+        model.getItems().add(new Item("test", "AXB124AXY3", 399.00));
+
+        assertEquals(model.get(0).getName(), "test");
+    }
 }

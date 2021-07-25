@@ -19,8 +19,25 @@ public class Item {
         this.value = new SimpleDoubleProperty(value);
     }
 
+    public Item(String serialNumber) {
+        this.name = new SimpleStringProperty("name");
+        this.serialNumber = new SimpleStringProperty(serialNumber);
+        this.value = new SimpleDoubleProperty(0.00);
+    }
+
     public void setName(String name) {
-        this.name.set(name);
+        if(isValidName(name)) {
+            this.name.set(name);
+        }
+    }
+
+    private boolean isValidName(String name) {
+        boolean flag = false;
+        if(name.length() >= 2 && name.length() <= 256) {
+            flag = true;
+        }
+
+        return flag;
     }
 
     public void setSerialNumber(String serialNumber) {
@@ -28,7 +45,9 @@ public class Item {
     }
 
     public void setValue(double value) {
-        this.value.set(value);
+        if(value >= 0.00) {
+            this.value.set(value);
+        }
     }
 
     public String getName() {

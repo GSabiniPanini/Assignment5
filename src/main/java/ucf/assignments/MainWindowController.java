@@ -67,49 +67,28 @@ public class MainWindowController implements Initializable {
     void editSerialNumberText(TableColumn.CellEditEvent<Item, String> itemStringCellEditEvent) {
         int index = itemStringCellEditEvent.getTablePosition().getRow();
 
-        if(isValidSerialNumber(itemStringCellEditEvent.getNewValue())) {
-            itemStringCellEditEvent.getTableView().getItems().get(index).setSerialNumber(itemStringCellEditEvent.getNewValue());
+        if(model.isValidSerialNumber(itemStringCellEditEvent.getNewValue())) {
+            editSN(itemStringCellEditEvent.getTableView().getItems().get(index), itemStringCellEditEvent.getNewValue());
         } else {
-            itemStringCellEditEvent.getTableView().getItems().get(index).setSerialNumber(itemStringCellEditEvent.getOldValue());
+            editSN(itemStringCellEditEvent.getTableView().getItems().get(index), itemStringCellEditEvent.getOldValue());
         }
 
         itemsTableView.sort();
     }
 
-    private boolean isValidSerialNumber(String sn) {
-        //necessary variables
-        int n = sn.length();
-        boolean flag = true;
-
-        //convert string to char array
-        char[] array = sn.toCharArray();
-
-        //discern sn has 10 characters of digits or letters
-        if(n == 10)
-        {
-            for(int i = 0; i<n; i++) {
-                if(!Character.isLetter(array[i]) && !Character.isDigit(array[i])) {
-                    flag = false;
-                }
-            }
-        } else {
-            flag = false;
-        }
-
-        //discern that serial number is unique
-        if(flag) {
-            if(model.isUniqueSerialNumber(sn) == false) {
-                flag = false;
-            }
-        }
-
-        //return bool flag
-        return flag;
+    private void editSN(Item item, String newValue) {
+        item.setSerialNumber(newValue);
     }
 
     @FXML
-    void editValueText(ActionEvent event) {
+    void editValueText(TableColumn.CellEditEvent<Item, Double> itemStringCellEditEvent) {
+        int index = itemStringCellEditEvent.getTablePosition().getRow();
 
+        editValue(itemStringCellEditEvent.getTableView().getItems().get(index), itemStringCellEditEvent.getNewValue());
+    }
+
+    private void editValue(Item item, Double newValue) {
+        item.setValue(newValue);
     }
 
     private ItemModel model;
