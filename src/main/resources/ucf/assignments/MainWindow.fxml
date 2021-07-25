@@ -38,11 +38,11 @@
       </MenuBar>
    </top>
    <center>
-      <TableView fx:id="ItemsTableView" BorderPane.alignment="CENTER">
+      <TableView fx:id="itemsTableView" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="ItemsSerialNumberColumn" prefWidth="75.0" text="Serial Number" />
-          <TableColumn fx:id="ItemsNameColumn" prefWidth="75.0" text="Name" />
-            <TableColumn fx:id="ItemsValueColumn" prefWidth="75.0" text="Value" />
+          <TableColumn fx:id="itemsSerialNumberColumn" onEditCommit="#editSerialNumberText" prefWidth="75.0" text="Serial Number" />
+          <TableColumn fx:id="itemsNameColumn" onEditCommit="#editNameText" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="itemsValueColumn" onEditCommit="#editValueText" prefWidth="75.0" text="Value" />
         </columns>
       </TableView>
    </center>
@@ -52,7 +52,7 @@
             <HBox>
                <children>
                   <Button mnemonicParsing="false" onAction="#addNewItemButtonClicked" text="Add New Item" />
-                  <Button mnemonicParsing="false" onAction="#deleteSelectedItemButtonClicked" text="Delete Selected Item" />
+                  <Button fx:id="deleteSelItemButton" mnemonicParsing="false" onAction="#deleteSelectedItemButtonClicked" text="Delete Selected Item" />
                </children>
             </HBox>
          </children>
