@@ -38,11 +38,22 @@ public class MainWindowController implements Initializable {
         stage.setTitle("Add an Item");
         stage.setScene(scene);
         stage.showAndWait();
+
+        itemsTableView.sort();
     }
 
     @FXML
     void deleteSelectedItemButtonClicked(ActionEvent event) {
+        if(itemsTableView.isFocused()) {
+            int index = itemsTableView.getSelectionModel().getSelectedIndex();
+            removeItem(index);
+        }
 
+        itemsTableView.sort();
+    }
+
+    private void removeItem(int index) {
+        model.getItems().remove(index);
     }
 
     @FXML
@@ -61,6 +72,7 @@ public class MainWindowController implements Initializable {
 
         editName(itemStringCellEditEvent.getTableView().getItems().get(index), itemStringCellEditEvent.getNewValue());
 
+        itemsTableView.refresh();
         itemsTableView.sort();
     }
 
@@ -78,6 +90,7 @@ public class MainWindowController implements Initializable {
             editSN(itemStringCellEditEvent.getTableView().getItems().get(index), itemStringCellEditEvent.getOldValue());
         }
 
+        itemsTableView.refresh();
         itemsTableView.sort();
     }
 
@@ -90,6 +103,9 @@ public class MainWindowController implements Initializable {
         int index = itemStringCellEditEvent.getTablePosition().getRow();
 
         editValue(itemStringCellEditEvent.getTableView().getItems().get(index), itemStringCellEditEvent.getNewValue());
+
+        itemsTableView.refresh();
+        itemsTableView.sort();
     }
 
     private void editValue(Item item, Double newValue) {

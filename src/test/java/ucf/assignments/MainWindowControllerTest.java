@@ -26,4 +26,36 @@ class MainWindowControllerTest {
 
         assertEquals(model.get(0).getName(), "test");
     }
+
+    @Test
+    void can_remove_an_inventory_item() {
+
+    }
+
+    @Test
+    void can_edit_existing_item_value() {
+        Item item = new Item("Xbox One", "AXB124AXY3", 399.00);
+
+        item.setValue(100);
+
+        assertEquals(item.getValue(), 100.0);
+    }
+
+    @Test
+    void can_edit_existing_item_serial_number() {
+        Item item = new Item("Xbox One", "AXB124AXY3", 399.00);
+
+        item.setSerialNumber("testtestte");
+
+        assertEquals(item.getSerialNumber(), "testtestte");
+    }
+
+    @Test
+    void can_edit_existing_item_name() {
+        Item item = new Item("Xbox One", "AXB124AXY3", 399.00);
+
+        item.setName("test");
+
+        assertEquals(item.getName(), "test");
+    }
 }

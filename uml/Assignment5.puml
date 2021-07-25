@@ -34,6 +34,19 @@ class MainWindowController {
 }
 
 class AddItemWindowController {
+    - valueField: TextField
+    - serialNumberField: TextField
+    - nameField: TextField
+    - errorLabel: Label
+    - model: ItemModel
+    - sceneManager: SceneManager
+
+    <<constructor>> AddItemWindowController(ItemModel, SceneManager)
+
+    cancelClicked(ActionEvent): void
+    confirmClicked(ActionEvent): void
+
+    - clearFields(): void
 }
 
 class EditItemWindowController {

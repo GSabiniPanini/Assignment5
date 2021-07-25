@@ -37,7 +37,7 @@
       </MenuBar>
    </top>
    <center>
-      <TableView fx:id="itemsTableView" BorderPane.alignment="CENTER">
+      <TableView fx:id="itemsTableView" editable="true" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="itemsSerialNumberColumn" onEditCommit="#editSerialNumberText" prefWidth="75.0" text="Serial Number" />
           <TableColumn fx:id="itemsNameColumn" onEditCommit="#editNameText" prefWidth="75.0" text="Name" />
