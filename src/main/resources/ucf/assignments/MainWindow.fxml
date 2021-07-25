@@ -61,7 +61,7 @@
             </HBox>
             <TableView fx:id="itemsTableView" editable="true">
               <columns>
-                  <TableColumn fx:id="itemsValueColumn" onEditCommit="#editValueText" prefWidth="100.0" text="Value" />
+                  <TableColumn fx:id="itemsValueColumn" onEditCommit="#editValueText" prefWidth="100.0" text="Value ($)" />
                 <TableColumn fx:id="itemsSerialNumberColumn" onEditCommit="#editSerialNumberText" prefWidth="150.0" text="Serial Number" />
                 <TableColumn fx:id="itemsNameColumn" onEditCommit="#editNameText" prefWidth="150.0" text="Name" />
               </columns>

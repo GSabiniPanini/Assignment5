@@ -38,7 +38,7 @@ public class FileManager {
             temp = sc.nextLine();
             while(sc.hasNextLine()) {
                 temp = sc.next();
-                value = Double.valueOf(temp);
+                value = Double.valueOf(temp.replace("$", ""));
                 serialNumber = sc.next();
                 name = sc.nextLine();
 
@@ -81,7 +81,7 @@ public class FileManager {
                     //sc.useDelimiter("\t");
                     String line = sc.nextLine();
                     String[] lineArray = line.split("\t");
-                    value = Double.valueOf(lineArray[0]);
+                    value = Double.valueOf(lineArray[0].replace("$", ""));
                     serialNumber = lineArray[1];
                     name = lineArray[2].replace("<br>", "");
 

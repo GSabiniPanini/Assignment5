@@ -75,10 +75,10 @@ public class Item {
     }
 
     public String toTSVLine() {
-        return String.format("%10.2f\t%-15s\t%-10s", getValue(), getSerialNumber(), getName());
+        return String.format("$%10.2f\t%-15s\t%-10s", getValue(), getSerialNumber(), getName());
     }
 
     public String toHTMLLine() {
-        return String.format("%10.2f\t%15s\t%10s<br>", getValue(), getSerialNumber(), getName());
+        return String.format("$%10.2f\t%15s\t%10s<br>", getValue(), getSerialNumber(), getName());
     }
 }
