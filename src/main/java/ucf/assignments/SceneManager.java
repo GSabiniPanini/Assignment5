@@ -42,6 +42,7 @@ public class SceneManager {
             e.printStackTrace();
         }
 
+        //for the AddItemWindow
         loader = new FXMLLoader(getClass().getResource("AddItemWindow.fxml"));
         loader.setController(addItemWindowController);
 
@@ -51,6 +52,7 @@ public class SceneManager {
         } catch(IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public Scene getScene(String name) {

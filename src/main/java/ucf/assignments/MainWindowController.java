@@ -1,15 +1,15 @@
 package ucf.assignments;
 
+import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 
@@ -17,14 +17,16 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.logging.Filter;
 
 public class MainWindowController implements Initializable {
 
+    @FXML private ChoiceBox<String> choiceBox;
+    @FXML private TextField searchQueryField;
     @FXML private TableView<Item> itemsTableView;
     @FXML private TableColumn<Item, Double> itemsValueColumn;
     @FXML private TableColumn<Item, String> itemsSerialNumberColumn;
     @FXML private TableColumn<Item, String> itemsNameColumn;
-    @FXML private Button deleteSelItemButton;
 
     private ItemModel model;
     private SceneManager sceneManager;
@@ -138,9 +140,36 @@ public class MainWindowController implements Initializable {
         try {
             model.getItems().add(new Item("Xbox One", "AXB124AXY3", 399.00));
             model.getItems().add(new Item("SamsungTV", "S40AZBDE47", 599.99));
+            searchQueryField.setText("");
 
-            SortedList<Item> sortedItems = new SortedList<>(model.getItems());
+            FilteredList<Item> filteredList = new FilteredList(model.getItems());
+            SortedList<Item> sortedItems = new SortedList<>(filteredList);
+
             sortedItems.comparatorProperty().bind(itemsTableView.comparatorProperty());
+
+            //adding items to choiceBox
+            choiceBox.getItems().addAll("Serial Number", "Name");
+            choiceBox.setValue("Serial Number");
+
+            //life filtering off of the search query
+            searchQueryField.textProperty().addListener((obs,oldValue,newValue) -> {
+                switch(choiceBox.getValue())
+                {
+                    case "Serial Number":
+                        filteredList.setPredicate(p -> p.getSerialNumber().contains(newValue));
+                        break;
+                    case "Name":
+                        filteredList.setPredicate(p -> p.getName().contains(newValue));
+                        break;
+                }
+            });
+
+            choiceBox.getSelectionModel().selectedItemProperty().addListener((obs,oldValue,newValue) -> {
+                //reset table with new choice selected
+                if(newValue != null) {
+                    searchQueryField.setText("");
+                }
+            });
 
             itemsTableView.setItems(sortedItems);
             itemsTableView.sort();
@@ -148,6 +177,11 @@ public class MainWindowController implements Initializable {
             //if list can not be found, leave table blank
             itemsTableView.setItems(null);
         }
+
+    }
+
+    @FXML
+    void queryFieldChanged(KeyEvent event) {
 
     }
 
