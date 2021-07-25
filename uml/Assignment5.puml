@@ -52,8 +52,6 @@ class AddItemWindowController {
 class EditItemWindowController {
 }
 
-class RemoveItemWindowController {
-}
 
 class SearchItemWindowController {
 }
@@ -83,13 +81,9 @@ openjfx.org.Application <|-- InventoryTracker
 InventoryTracker -- SceneManager
 SceneManager -- MainWindowController
 SceneManager -- AddItemWindowController
-SceneManager -- EditItemWindowController
-SceneManager -- RemoveItemWindowController
 SceneManager -- SearchItemWindowController
 MainWindowController o-- ItemModel
 AddItemWindowController o-- ItemModel
-EditItemWindowController o-- ItemModel
-RemoveItemWindowController o-- ItemModel
 SearchItemWindowController o-- ItemModel
 ItemModel *-- Item
 MainWindowController o-- FileManager
