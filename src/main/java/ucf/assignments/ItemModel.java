@@ -28,6 +28,10 @@ public class ItemModel {
         return items.get(index);
     }
 
+    private void remove(int index) {
+        items.remove(index);
+    }
+
     public boolean isValidSerialNumber(String s) {
         //flag bool
         boolean flag = true;
@@ -45,6 +49,14 @@ public class ItemModel {
 
         //return bool flag
         return flag;
+    }
+
+    public boolean isUnique(String s) {
+        return isUniqueSerialNumber(s);
+    }
+
+    public boolean enoughChars(String s) {
+        return hasCorrectChars(s);
     }
 
     private boolean hasCorrectChars(String s) {

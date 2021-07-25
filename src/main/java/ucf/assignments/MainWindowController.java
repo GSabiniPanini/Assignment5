@@ -4,11 +4,13 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 
 import java.net.URL;
@@ -19,20 +21,23 @@ import java.util.Set;
 public class MainWindowController implements Initializable {
 
     @FXML private TableView<Item> itemsTableView;
+    @FXML private TableColumn<Item, Double> itemsValueColumn;
     @FXML private TableColumn<Item, String> itemsSerialNumberColumn;
     @FXML private TableColumn<Item, String> itemsNameColumn;
-    @FXML private TableColumn<Item, Double> itemsValueColumn;
     @FXML private Button deleteSelItemButton;
+
+    private ItemModel model;
+    private SceneManager sceneManager;
 
     @FXML
     void addNewItemButtonClicked(ActionEvent event) {
-        //string = field.gettext()
-        //name string = field.getText()
-        //value double = field.gettext()
+        //make stage and show the stage
+        Stage stage = new Stage();
+        Scene scene = sceneManager.getScene("AddItem");
 
-        //Item item = createNewItem(string, name,value)
-
-        //ItemModel.add(item);
+        stage.setTitle("Add an Item");
+        stage.setScene(scene);
+        stage.showAndWait();
     }
 
     @FXML
@@ -91,9 +96,6 @@ public class MainWindowController implements Initializable {
         item.setValue(newValue);
     }
 
-    private ItemModel model;
-    private SceneManager sceneManager;
-
     public MainWindowController(ItemModel model, SceneManager sceneManager) {
         this.model = model;
         this.sceneManager = sceneManager;
@@ -102,19 +104,19 @@ public class MainWindowController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //set up cellFactory for Table view
-        itemsNameColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
-        itemsNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        itemsValueColumn.setCellValueFactory(new PropertyValueFactory<Item, Double>("value"));
+        itemsValueColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
 
         itemsSerialNumberColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("serialNumber"));
         itemsSerialNumberColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        itemsValueColumn.setCellValueFactory(new PropertyValueFactory<Item, Double>("value"));
-        itemsValueColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        itemsNameColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
+        itemsNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         //add sorting
         itemsTableView.getSortOrder().add(itemsNameColumn);
-        itemsTableView.getSortOrder().add(itemsValueColumn);
         itemsTableView.getSortOrder().add(itemsSerialNumberColumn);
+        itemsTableView.getSortOrder().add(itemsValueColumn);
 
         //set initial Items
         try {
@@ -131,10 +133,6 @@ public class MainWindowController implements Initializable {
             itemsTableView.setItems(null);
         }
 
-    }
-
-    public Item createNewItem(String sn, String name, double value) {
-        return new Item(sn, name, value);
     }
 
     public void saveAsCSV(String filename) {

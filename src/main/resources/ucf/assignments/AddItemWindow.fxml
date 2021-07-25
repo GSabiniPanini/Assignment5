@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<!--
+  ~ UCF COP3330 Summer 2021 Assignment 5 Solution
+  ~ Copyright 2021 Glenroy Little
+  -->
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="450.0" spacing="10.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <TextField fx:id="valueField" prefHeight="25.0" prefWidth="58.0" promptText="Value" />
+            <TextField fx:id="serialNumberField" prefHeight="25.0" prefWidth="100.0" promptText="Serial Number" />
+            <TextField fx:id="nameField" promptText="Name" />
+         </children>
+      </HBox>
+      <HBox alignment="BOTTOM_CENTER" spacing="5.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#cancelClicked" text="Cancel" />
+            <Button mnemonicParsing="false" onAction="#confirmClicked" text="Confirm" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER">
+         <children>
+            <Label fx:id="errorLabel" alignment="CENTER" textAlignment="CENTER" textFill="RED" />
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+   </padding>
+</VBox>

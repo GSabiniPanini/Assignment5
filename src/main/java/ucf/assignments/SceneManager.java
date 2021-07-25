@@ -22,6 +22,7 @@ public class SceneManager {
 
         //instantiate controllers passing the model and Scene manager to it
         MainWindowController mainWindowController = new MainWindowController(itemModel, this);
+        AddItemWindowController addItemWindowController = new AddItemWindowController(itemModel, this);
 
         //create parent root
         Parent root;
@@ -37,6 +38,16 @@ public class SceneManager {
             //put scene and string name into scenes map
             scenes.put("MainWindow", new Scene(root));
             //catch ioexception
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        loader = new FXMLLoader(getClass().getResource("AddItemWindow.fxml"));
+        loader.setController(addItemWindowController);
+
+        try {
+            root = loader.load();
+            scenes.put("AddItem", new Scene(root));
         } catch(IOException e) {
             e.printStackTrace();
         }

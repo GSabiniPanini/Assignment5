@@ -6,7 +6,10 @@
  package ucf.assignments;
 
  import javafx.application.Application;
+ import javafx.scene.Scene;
  import javafx.stage.Stage;
+
+ import java.io.IOException;
 
  public class InventoryTracker extends Application {
 
@@ -15,12 +18,14 @@
      }
 
      @Override
-     public void start(Stage primaryStage) {
+     public void start(Stage primaryStage) throws IOException {
          SceneManager sceneManager = new SceneManager();
          sceneManager.load();
 
-         primaryStage.setScene(sceneManager.getScene("MainWindow"));
+         Scene scene = sceneManager.getScene("MainWindow");
+
          primaryStage.setTitle("Inventory Tracker");
+         primaryStage.setScene(scene);
          primaryStage.show();
      }
 
