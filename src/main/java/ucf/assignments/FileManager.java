@@ -56,7 +56,7 @@ public class FileManager {
             PrintWriter writer = new PrintWriter(file);
             writer.println("<!DOCTYPE html><html><body><p>");
             for(Item item : model.getItems()) {
-                writer.print(item.toHTMLLine());
+                writer.println(item.toHTMLLine());
             }
             writer.println("</p></body></html>");
             writer.close();
@@ -75,24 +75,23 @@ public class FileManager {
             Scanner sc = new Scanner(file);
 
             model.getItems().clear();
-            temp = sc.next();
-            if(temp == "<!DOCTYPE html><html><body><p>") {
-                while (sc.hasNextLine()) {
-                    sc.useDelimiter("\t");
-                    temp = sc.next();
-                    if(temp == "</p></body></html>") {
-                        break;
-                    }
-
-                    value = Double.valueOf(temp);
-                    serialNumber = sc.next();
-
-                    sc.useDelimiter("<br>");
-                    name = sc.next();
-
-                    model.getItems().add(new Item(name, serialNumber, value));
+            String garbage = sc.nextLine();
+            while (sc.hasNextLine()) {
+                sc.useDelimiter("\t");
+                temp = sc.next();
+                if(temp == "</p></body></html>") {
+                    break;
                 }
+
+                value = Double.valueOf(temp);
+                serialNumber = sc.next();
+
+                String tempName = sc.nextLine();
+                name = tempName.replace("<br>", "");
+
+                model.getItems().add(new Item(name, serialNumber, value));
             }
+
             sc.close();
         } catch(FileNotFoundException e) {
             e.printStackTrace();
