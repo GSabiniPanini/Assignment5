@@ -77,19 +77,25 @@ public class FileManager {
             model.getItems().clear();
             String garbage = sc.nextLine();
             while (sc.hasNextLine()) {
-                sc.useDelimiter("\t");
-                temp = sc.next();
-                if(temp == "</p></body></html>") {
+                if(sc.hasNextInt() || sc.hasNextDouble()) {
+                    //sc.useDelimiter("\t");
+                    String line = sc.nextLine();
+                    String[] lineArray = line.split("\t");
+                    value = Double.valueOf(lineArray[0]);
+                    serialNumber = lineArray[1];
+                    name = lineArray[2].replace("<br>", "");
+
+                    //temp = sc.next();
+                    //value = Double.valueOf(temp);
+                    //serialNumber = sc.next();
+
+                    //String tempName = sc.nextLine();
+                    //name = tempName.replace("<br>", "");
+
+                    model.getItems().add(new Item(name, serialNumber, value));
+                } else {
                     break;
                 }
-
-                value = Double.valueOf(temp);
-                serialNumber = sc.next();
-
-                String tempName = sc.nextLine();
-                name = tempName.replace("<br>", "");
-
-                model.getItems().add(new Item(name, serialNumber, value));
             }
 
             sc.close();
