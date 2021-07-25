@@ -54,11 +54,11 @@ public class FileManager {
     public void saveAsHTML(ItemModel model, File file) {
         try {
             PrintWriter writer = new PrintWriter(file);
-            writer.println("<!DOCTYPE html><html><body><p>");
+            writer.println("<!DOCTYPE html><html><body><table style=\"width:100%\"><tr><th>Value</th><th>Serial Number</th><th>Name</th></tr>");
             for(Item item : model.getItems()) {
                 writer.println(item.toHTMLLine());
             }
-            writer.println("</p></body></html>");
+            writer.println("</table></body></html>");
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -77,13 +77,13 @@ public class FileManager {
             model.getItems().clear();
             String garbage = sc.nextLine();
             while (sc.hasNextLine()) {
-                if(sc.hasNextInt() || sc.hasNextDouble()) {
+                String line = sc.nextLine();
+                if(line.contains("<tr><td>")) {
                     //sc.useDelimiter("\t");
-                    String line = sc.nextLine();
-                    String[] lineArray = line.split("\t");
-                    value = Double.valueOf(lineArray[0].replace("$", ""));
+                    String[] lineArray = line.split("</td><td>");
+                    value = Double.valueOf(lineArray[0].replace("<tr><td>$", ""));
                     serialNumber = lineArray[1];
-                    name = lineArray[2].replace("<br>", "");
+                    name = lineArray[2].replace("</td></tr>", "");
 
                     //temp = sc.next();
                     //value = Double.valueOf(temp);

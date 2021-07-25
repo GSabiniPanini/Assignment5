@@ -79,6 +79,6 @@ public class Item {
     }
 
     public String toHTMLLine() {
-        return String.format("$%10.2f\t%15s\t%10s<br>", getValue(), getSerialNumber(), getName());
+        return String.format("<tr><td>$%10.2f</td><td>%15s</td><td>%10s</td></tr>", getValue(), getSerialNumber(), getName());
     }
 }
