@@ -9,15 +9,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.converter.DoubleStringConverter;
 
+import java.io.File;
 import java.net.URL;
-import java.util.HashSet;
 import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.logging.Filter;
 
 public class MainWindowController implements Initializable {
 
@@ -30,6 +30,15 @@ public class MainWindowController implements Initializable {
 
     private ItemModel model;
     private SceneManager sceneManager;
+    private FileManager fileManager;
+    private Window mainStage;
+
+    public MainWindowController(ItemModel model, SceneManager sceneManager) {
+        this.model = model;
+        this.sceneManager = sceneManager;
+        this.fileManager = new FileManager();
+        this.mainStage = choiceBox.getScene().getWindow();
+    }
 
     @FXML
     void addNewItemButtonClicked(ActionEvent event) {
@@ -56,16 +65,6 @@ public class MainWindowController implements Initializable {
 
     private void removeItem(int index) {
         model.getItems().remove(index);
-    }
-
-    @FXML
-    void saveAsButtonClicked(ActionEvent event) {
-        //filename = filechooser get name
-        //filetype = filechooser get type
-
-        //if CSV {saveAsCSV}
-        //if HTML {saveAsHTML}
-        //if JSON {saveAsJSON}
     }
 
     @FXML
@@ -112,11 +111,6 @@ public class MainWindowController implements Initializable {
 
     private void editValue(Item item, Double newValue) {
         item.setValue(newValue);
-    }
-
-    public MainWindowController(ItemModel model, SceneManager sceneManager) {
-        this.model = model;
-        this.sceneManager = sceneManager;
     }
 
     @Override
@@ -181,13 +175,55 @@ public class MainWindowController implements Initializable {
     }
 
     @FXML
-    void queryFieldChanged(KeyEvent event) {
+    void saveAsButtonClicked(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save as...");
+        fileChooser.getExtensionFilters().addAll(
+                new ExtensionFilter("TSV files", "*.txt"),
+                new ExtensionFilter("HTML files", "*.html"),
+                new ExtensionFilter("JSON files", ".json"));
+        File selectedFile = fileChooser.showSaveDialog(mainStage);
 
+        if(selectedFile != null) {
+            switch(fileChooser.getSelectedExtensionFilter().getDescription()) {
+                case "TSV files":
+                    fileManager.saveAsTSV(model, selectedFile);
+                    break;
+                case "HTML files":
+                    fileManager.saveAsHTML(model, selectedFile);
+                    break;
+                case "JSON files":
+                    fileManager.saveAsJSON(model, selectedFile);
+                    break;
+            }
+        }
     }
 
-    public void saveAsCSV(String filename) {
-        //open up filename
-        //for each item in the item model
-        //write the item to file
+    @FXML
+    void loadButtonClicked(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(
+                new ExtensionFilter("TSV files", "*.txt"),
+                new ExtensionFilter("HTML files", "*.html"),
+                new ExtensionFilter("JSON files", ".json"));
+        File selectedFile = fileChooser.showOpenDialog(mainStage);
+
+        if(selectedFile != null) {
+            switch(fileChooser.getSelectedExtensionFilter().getDescription()) {
+                case "TSV files":
+                    fileManager.loadTSV(model, selectedFile);
+                    itemsTableView.sort();
+                    break;
+                case "HTML files":
+                    fileManager.loadHTML(model, selectedFile);
+                    itemsTableView.sort();
+                    break;
+                case "JSON files":
+                    fileManager.loadJSON(model, selectedFile);
+                    itemsTableView.sort();
+                    break;
+            }
+        }
     }
 }

@@ -49,13 +49,6 @@ class AddItemWindowController {
     - clearFields(): void
 }
 
-class EditItemWindowController {
-}
-
-
-class SearchItemWindowController {
-}
-
 class ItemModel {
     - ObservableList<Item>
 }
@@ -78,13 +71,11 @@ class FileManager {
 }
 
 openjfx.org.Application <|-- InventoryTracker
-InventoryTracker -- SceneManager
+InventoryTracker - SceneManager
 SceneManager -- MainWindowController
 SceneManager -- AddItemWindowController
-SceneManager -- SearchItemWindowController
 MainWindowController o-- ItemModel
 AddItemWindowController o-- ItemModel
-SearchItemWindowController o-- ItemModel
 ItemModel *-- Item
 MainWindowController o-- FileManager
 @enduml

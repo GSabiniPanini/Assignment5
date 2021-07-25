@@ -5,13 +5,14 @@
 
 package ucf.assignments;
 
+import com.sun.javafx.binding.StringFormatter;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Item {
-    SimpleStringProperty name;
-    SimpleStringProperty serialNumber;
     SimpleDoubleProperty value;
+    SimpleStringProperty serialNumber;
+    SimpleStringProperty name;
 
     public Item(String name, String serialNumber, Double value) {
         this.name = new SimpleStringProperty(name);
@@ -72,5 +73,13 @@ public class Item {
 
     public SimpleDoubleProperty valueProperty() {
         return value;
+    }
+
+    public String toTSVLine() {
+        return String.format("%10.2f\t%s\t%s", getValue(), getSerialNumber(), getName());
+    }
+
+    public String toHTMLLine() {
+        return String.format("%10.2f\t%s\t%s<br>", getValue(), getSerialNumber(), getName());
     }
 }

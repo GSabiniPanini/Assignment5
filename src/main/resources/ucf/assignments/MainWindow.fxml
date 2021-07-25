@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -20,15 +19,8 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" text="Save As..." />
-                  <MenuItem mnemonicParsing="false" text="Load..." />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-              <MenuItem mnemonicParsing="false" text="Quit" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveAsButtonClicked" text="Save As..." />
+                  <MenuItem mnemonicParsing="false" onAction="#loadButtonClicked" text="Load..." />
             </items>
           </Menu>
         </menus>
@@ -58,7 +50,7 @@
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <ChoiceBox fx:id="choiceBox" prefWidth="150.0" />
-                  <TextField fx:id="searchQueryField" onKeyReleased="#queryFieldChanged" promptText="Search Query" />
+                  <TextField fx:id="searchQueryField" promptText="Search Query" />
                </children>
                <opaqueInsets>
                   <Insets />
