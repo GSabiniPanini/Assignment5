@@ -53,9 +53,14 @@ public class MainWindowController implements Initializable {
     @FXML
     void editNameText(TableColumn.CellEditEvent<Item, String> itemStringCellEditEvent) {
         int index = itemStringCellEditEvent.getTablePosition().getRow();
-        itemStringCellEditEvent.getTableView().getItems().get(index).setName(itemStringCellEditEvent.getNewValue());
+
+        editName(itemStringCellEditEvent.getTableView().getItems().get(index), itemStringCellEditEvent.getNewValue());
 
         itemsTableView.sort();
+    }
+
+    private void editName(Item item, String newValue) {
+        item.setName(newValue);
     }
 
     @FXML
