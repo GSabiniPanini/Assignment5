@@ -78,6 +78,6 @@ AddItemWindowController o-- ItemModel
 EditItemWindowController o-- ItemModel
 RemoveItemWindowController o-- ItemModel
 SearchItemWindowController o-- ItemModel
-ItemModel *-- Items
+ItemModel *-- Item
 MainWindowController o-- FileManager
 @enduml
