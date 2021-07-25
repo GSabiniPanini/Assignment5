@@ -29,7 +29,13 @@ class MainWindowControllerTest {
 
     @Test
     void can_remove_an_inventory_item() {
+        ItemModel test = new ItemModel();
+        test.getItems().add(new Item("test1", "AAAAAAAAAA", 0.0));
+        test.getItems().add(new Item("test2", "AAAAAAAAAB", 0.0));
 
+        test.getItems().remove(0);
+
+        assertEquals(test.get(0).getName(), "test2");
     }
 
     @Test
@@ -58,4 +64,6 @@ class MainWindowControllerTest {
 
         assertEquals(item.getName(), "test");
     }
+
+
 }

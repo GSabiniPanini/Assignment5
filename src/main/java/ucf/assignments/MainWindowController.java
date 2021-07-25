@@ -44,8 +44,8 @@ public class MainWindowController implements Initializable {
 
     @FXML
     void deleteSelectedItemButtonClicked(ActionEvent event) {
-        if(itemsTableView.isFocused()) {
-            int index = itemsTableView.getSelectionModel().getSelectedIndex();
+        if(itemsTableView.getFocusModel().getFocusedCell() != null) {
+            int index = itemsTableView.getFocusModel().getFocusedIndex();
             removeItem(index);
         }
 
